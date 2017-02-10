@@ -5,6 +5,7 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 
 const KubectlWrapper = require('external/kubectl-wrapper.js')
+const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -30,46 +31,8 @@ describe('KubectlWrapper functional test', () => {
       })
 
       testConfig = {
-        'service': [{
-          'kind': 'Service',
-          'apiVersion': 'v1',
-          'metadata': {
-            'name': 'testt'
-          },
-          'spec': {
-            'selector': {
-              'app': 'testt'
-            },
-            'ports': [
-              {
-                'protocol': 'TCP',
-                'port': 80,
-                'targetPort': 80
-              }
-            ],
-            'type': 'NodePort'
-          }
-        }],
-        'deployment': [{
-          'kind': 'Deployment',
-          'apiVersion': 'v1',
-          'metadata': {
-            'name': 'testt'
-          },
-          'spec': {
-            'selector': {
-              'app': 'testt'
-            },
-            'ports': [
-              {
-                'protocol': 'TCP',
-                'port': 80,
-                'targetPort': 80
-              }
-            ],
-            'type': 'NodePort'
-          }
-        }]
+        'service': [mockJsonConfigs.services.frontend],
+        'deployment': [mockJsonConfigs.deployments.frontend]
       }
       done()
     })

@@ -2,11 +2,10 @@
 const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
-const yaml = require('js-yaml')
-const fs = require('fs')
 
 const Worker = require('workers/config.assert.js')
 const database = require('external/database.js')
+const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -18,14 +17,17 @@ const it = lab.it
 
 describe('config.apply functional test', () => {
   let testJob
+  const testNamespace = 'cocket'
+  const testId = 'earing'
 
   describe('run', () => {
     beforeEach((done) => {
+      database.__purgeDb()
       testJob = {
-        namespace: 'v1',
-        configId: '1',
+        namespace: testNamespace,
+        configId: testId,
         configs: {
-          deployments: [yaml.safeLoad(fs.readFileSync('./test/fixtures/deployment.frontend.yml'))]
+          deployments: [mockJsonConfigs.deployments.frontend]
         }
       }
       done()
@@ -33,37 +35,64 @@ describe('config.apply functional test', () => {
 
     it('should update existing config', () => {
       database.saveJsonConfig({
-        namespace: 'v1',
-        configId: '1',
+        namespace: testNamespace,
+        configId: testId,
         configs: {
-          services: [yaml.safeLoad(fs.readFileSync('./test/fixtures/service.frontend.yml'))]
+          services: [mockJsonConfigs.services.frontend]
         }
       })
 
       return Worker.task(testJob)
         .then((stdout) => {
-          return database.getConfigByIdAndNamespace('1', 'v1')
+          return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
         .then((config) => {
           expect(config.configs).to.equal({
-            deployments: [yaml.safeLoad(fs.readFileSync('./test/fixtures/deployment.frontend.yml'))],
-            services: [yaml.safeLoad(fs.readFileSync('./test/fixtures/service.frontend.yml'))]
+            deployments: [mockJsonConfigs.deployments.frontend],
+            services: [mockJsonConfigs.services.frontend]
           })
         })
     })
 
-    // it('should create new config', () => {
-    //   return Worker.task(testJob)
-    //     .then((stdout) => {
+    it('should create new config', () => {
+      return Worker.task(testJob)
+        .then((stdout) => {
+          return database.getConfigsByIdAndNamespace(testId, testNamespace)
+        })
+        .then((config) => {
+          expect(config.configs).to.equal({
+            deployments: [mockJsonConfigs.deployments.frontend]
+          })
+        })
+    })
 
-    //     })
-    // })
+    it('should create new namespace with parent config', () => {
+      database.saveJsonConfig({
+        namespace: 'master',
+        configId: testId,
+        configs: {
+          services: [mockJsonConfigs.services.frontend]
+        }
+      })
 
-    // it('should create new namespace with parent config', () => {
-    //   return Worker.task(testJob)
-    //     .then((stdout) => {
-
-    //     })
-    // })
+      return Worker.task(testJob)
+        .then((stdout) => {
+          return database.getConfigsByIdAndNamespace(testId, testNamespace)
+        })
+        .then((config) => {
+          expect(config.configs).to.equal({
+            services: [mockJsonConfigs.services.frontend],
+            deployments: [mockJsonConfigs.deployments.frontend]
+          })
+        })
+        .then((stdout) => {
+          return database.getConfigsByIdAndNamespace(testId, 'master')
+        })
+        .then((config) => {
+          expect(config.configs).to.equal({
+            services: [mockJsonConfigs.services.frontend]
+          })
+        })
+    })
   }) // end apply
 })
