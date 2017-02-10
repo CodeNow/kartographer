@@ -3,6 +3,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
+const database = require('external/database.js')
 const Worker = require('workers/config.apply.js')
 
 require('sinon-as-promised')(Promise)
@@ -16,31 +17,44 @@ const it = lab.it
 describe('config.apply functional test', () => {
   let testJob
   const testEndpoint = 'api.runnable.com'
-  const testNamespace = 'v1'
+  const testNamespace = 'bargemaster'
+  const testConfigId = 'bosun'
 
   describe('run', () => {
     beforeEach((done) => {
       process.env.KUBECTL_PATH = './test/fixtures/kube-ctl-mock.sh'
       process.env.KUBE_ENDPOINT = testEndpoint
-      testJob = {
-        'kind': 'Service',
-        'apiVersion': 'v1',
-        'metadata': {
-          'name': 'testt'
-        },
-        'spec': {
-          'selector': {
-            'app': 'testt'
-          },
-          'ports': [
-            {
-              'protocol': 'TCP',
-              'port': 80,
-              'targetPort': 80
+      database.__purgeDb()
+      database.saveJsonConfig({
+        configId: testConfigId,
+        namespace: testNamespace,
+        configs: {
+          services: [{
+            'kind': 'Service',
+            'apiVersion': 'v1',
+            'metadata': {
+              'name': 'testt'
+            },
+            'spec': {
+              'selector': {
+                'app': 'testt'
+              },
+              'ports': [
+                {
+                  'protocol': 'TCP',
+                  'port': 80,
+                  'targetPort': 80
+                }
+              ],
+              'type': 'NodePort'
             }
-          ],
-          'type': 'NodePort'
+          }]
         }
+      })
+
+      testJob = {
+        configId: testConfigId,
+        namespace: testNamespace
       }
       done()
     })

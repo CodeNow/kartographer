@@ -56,13 +56,16 @@ describe('rabbitmq integration test', () => {
 
   describe('check publishing', () => {
     it('should publish test job', (done) => {
-      const configId = '1234'
+      const testConfigId = 'flagstaff'
+      const testNamespace = 'clew'
       const testJob = {
-        configId: configId
+        configId: testConfigId,
+        namespace: testNamespace
       }
 
       testStub = (jobData) => {
-        expect(jobData.configId).to.equal(configId)
+        expect(jobData.configId).to.equal(testConfigId)
+        expect(jobData.namespace).to.equal(testNamespace)
         done()
       }
 

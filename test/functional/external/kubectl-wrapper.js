@@ -30,24 +30,46 @@ describe('KubectlWrapper functional test', () => {
       })
 
       testConfig = {
-        'kind': 'Service',
-        'apiVersion': 'v1',
-        'metadata': {
-          'name': 'testt'
-        },
-        'spec': {
-          'selector': {
-            'app': 'testt'
+        'service': [{
+          'kind': 'Service',
+          'apiVersion': 'v1',
+          'metadata': {
+            'name': 'testt'
           },
-          'ports': [
-            {
-              'protocol': 'TCP',
-              'port': 80,
-              'targetPort': 80
-            }
-          ],
-          'type': 'NodePort'
-        }
+          'spec': {
+            'selector': {
+              'app': 'testt'
+            },
+            'ports': [
+              {
+                'protocol': 'TCP',
+                'port': 80,
+                'targetPort': 80
+              }
+            ],
+            'type': 'NodePort'
+          }
+        }],
+        'deployment': [{
+          'kind': 'Deployment',
+          'apiVersion': 'v1',
+          'metadata': {
+            'name': 'testt'
+          },
+          'spec': {
+            'selector': {
+              'app': 'testt'
+            },
+            'ports': [
+              {
+                'protocol': 'TCP',
+                'port': 80,
+                'targetPort': 80
+              }
+            ],
+            'type': 'NodePort'
+          }
+        }]
       }
       done()
     })
