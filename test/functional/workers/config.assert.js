@@ -27,7 +27,7 @@ describe('config.apply functional test', () => {
         namespace: testNamespace,
         configId: testId,
         configs: {
-          deployments: [mockJsonConfigs.deployments.frontend]
+          deployments: mockJsonConfigs.deployments1
         }
       }
       done()
@@ -38,7 +38,7 @@ describe('config.apply functional test', () => {
         namespace: testNamespace,
         configId: testId,
         configs: {
-          services: [mockJsonConfigs.services.frontend]
+          services: mockJsonConfigs.services1
         }
       })
 
@@ -48,8 +48,8 @@ describe('config.apply functional test', () => {
         })
         .then((config) => {
           expect(config.configs).to.equal({
-            deployments: [mockJsonConfigs.deployments.frontend],
-            services: [mockJsonConfigs.services.frontend]
+            services: mockJsonConfigs.services1,
+            deployments: mockJsonConfigs.deployments1
           })
         })
     })
@@ -61,7 +61,7 @@ describe('config.apply functional test', () => {
         })
         .then((config) => {
           expect(config.configs).to.equal({
-            deployments: [mockJsonConfigs.deployments.frontend]
+            deployments: mockJsonConfigs.deployments1
           })
         })
     })
@@ -71,7 +71,7 @@ describe('config.apply functional test', () => {
         namespace: 'master',
         configId: testId,
         configs: {
-          services: [mockJsonConfigs.services.frontend]
+          services: mockJsonConfigs.services1
         }
       })
 
@@ -81,8 +81,8 @@ describe('config.apply functional test', () => {
         })
         .then((config) => {
           expect(config.configs).to.equal({
-            services: [mockJsonConfigs.services.frontend],
-            deployments: [mockJsonConfigs.deployments.frontend]
+            services: mockJsonConfigs.services1,
+            deployments: mockJsonConfigs.deployments1
           })
         })
         .then((stdout) => {
@@ -90,7 +90,7 @@ describe('config.apply functional test', () => {
         })
         .then((config) => {
           expect(config.configs).to.equal({
-            services: [mockJsonConfigs.services.frontend]
+            services: mockJsonConfigs.services1
           })
         })
     })
