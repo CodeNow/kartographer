@@ -47,7 +47,7 @@ describe('rabbitmq integration test', () => {
   })
 
   afterEach((done) => {
-    publisher._publisher.disconnect()
+    publisher.disconnect()
       .then(() => {
         return testSubscriber.stop()
       })

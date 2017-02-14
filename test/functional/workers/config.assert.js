@@ -17,6 +17,7 @@ const it = lab.it
 
 describe('config.apply functional test', () => {
   let testJob
+  let worker
   const testNamespace = 'cocket'
   const testId = 'earing'
 
@@ -30,6 +31,8 @@ describe('config.apply functional test', () => {
           deployments: mockJsonConfigs.deployments1
         }
       }
+
+      worker = new Worker(testJob)
       done()
     })
 
@@ -42,7 +45,7 @@ describe('config.apply functional test', () => {
         }
       })
 
-      return Worker.task(testJob)
+      return worker.run()
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
@@ -55,7 +58,7 @@ describe('config.apply functional test', () => {
     })
 
     it('should create new config', () => {
-      return Worker.task(testJob)
+      return worker.run(testJob)
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
@@ -75,7 +78,7 @@ describe('config.apply functional test', () => {
         }
       })
 
-      return Worker.task(testJob)
+      return worker.run(testJob)
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })

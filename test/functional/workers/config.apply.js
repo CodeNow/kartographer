@@ -60,7 +60,9 @@ describe('config.apply functional test', () => {
     })
 
     it('should send correct args to kubectl', () => {
-      return Worker.task(testJob)
+      const worker = new Worker(testJob)
+
+      return worker.run()
         .then((stdout) => {
           const args = stdout.split(':::')[2]
           const didFileExist = stdout.split(':::')[1]
