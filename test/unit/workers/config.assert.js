@@ -22,9 +22,6 @@ describe('config.apply functional test', () => {
         deployments: mockJsonConfigs.deployments1Dirty
       })
       .then((config) => {
-        console.log('mockJsonConfigs.deployments1', mockJsonConfigs.deployments1)
-        console.log('mockJsonConfigs.deployments1Dirty', mockJsonConfigs.deployments1Dirty)
-        console.log('config', config)
         expect(config).to.equal({
           deployments: mockJsonConfigs.deployments1
         })
