@@ -2,14 +2,17 @@
 const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
+const sinon = require('sinon')
 
-const Worker = require('workers/config.assert.js')
 const database = require('external/database.js')
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
+const publisher = require('external/publisher.js')
+const Worker = require('workers/config.assert.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
 
+const afterEach = lab.afterEach
 const beforeEach = lab.beforeEach
 const describe = lab.describe
 const expect = Code.expect
@@ -24,6 +27,7 @@ describe('config.apply functional test', () => {
   describe('run', () => {
     beforeEach((done) => {
       database.__purgeDb()
+      sinon.stub(publisher, 'publishTask')
       testJob = {
         namespace: testNamespace,
         configId: testId,
@@ -33,6 +37,11 @@ describe('config.apply functional test', () => {
       }
 
       worker = new Worker(testJob)
+      done()
+    })
+
+    afterEach((done) => {
+      publisher.publishTask.restore()
       done()
     })
 
@@ -94,6 +103,20 @@ describe('config.apply functional test', () => {
         .then((config) => {
           expect(config.configs).to.equal({
             services: mockJsonConfigs.services1
+          })
+        })
+    })
+
+    it('should publish config.apply job', () => {
+      return worker.run(testJob)
+        .then((stdout) => {
+          sinon.assert.calledOnce(publisher.publishTask)
+          sinon.assert.calledWith(publisher.publishTask, 'config.apply', {
+            configId: testId,
+            namespace: testNamespace,
+            configs: {
+              deployments: mockJsonConfigs.deployments1
+            }
           })
         })
     })
