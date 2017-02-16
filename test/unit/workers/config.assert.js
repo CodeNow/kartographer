@@ -18,66 +18,65 @@ describe('config.assert unit test', () => {
   const worker = new Worker()
 
   describe('_removeUsupportedKeys', () => {
-    it('should remove keys we dont care about', () => {
-      return worker._removeUsupportedKeys({
+    it('should remove keys we dont care about', (done) => {
+      const config = worker._removeUsupportedKeys({
         deployments: mockJsonConfigs.deployments1Dirty
       })
-      .then((config) => {
-        expect(config).to.equal({
-          deployments: mockJsonConfigs.deployments1
-        })
+      expect(config).to.equal({
+        deployments: mockJsonConfigs.deployments1
       })
+      done()
     })
   }) // end _removeUsupportedKeys
 
   describe('_removeUnsupportedKinds', () => {
-    it('should remove kinds we dont care about', () => {
-      return worker._removeUnsupportedKinds({
+    it('should remove kinds we dont care about', (done) => {
+      const config = worker._removeUnsupportedKinds({
         deployments: mockJsonConfigs.deployments1,
         services: mockJsonConfigs.services1,
         volumes: {},
         secrets: {}
       })
-      .then((config) => {
-        expect(config).to.equal({
-          deployments: mockJsonConfigs.deployments1,
-          services: mockJsonConfigs.services1
-        })
+
+      expect(config).to.equal({
+        deployments: mockJsonConfigs.deployments1,
+        services: mockJsonConfigs.services1
       })
+      done()
     })
   }) // end _removeUnsupportedKinds
 
   describe('_overrideServices', () => {
-    it('should override type to NodePort', () => {
-      return worker._overrideServices({
+    it('should override type to NodePort', (done) => {
+      const config = worker._overrideServices({
         services: mockJsonConfigs.services1LoadBalancer
       })
-      .then((config) => {
-        expect(config).to.equal({
-          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
-            clone: true
-          })
+
+      expect(config).to.equal({
+        services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
+          clone: true
         })
       })
+      done()
     })
 
-    it('should add type to NodePort', () => {
-      return worker._overrideServices({
+    it('should add type to NodePort', (done) => {
+      const config = worker._overrideServices({
         services: mockJsonConfigs.services1
       })
-      .then((config) => {
-        expect(config).to.equal({
-          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
-            clone: true
-          })
+
+      expect(config).to.equal({
+        services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
+          clone: true
         })
       })
+      done()
     })
   }) // end _overrideServices
 
   describe('_overrideDeploys', () => {
-    it('should override restartPolicy', () => {
-      return worker._overrideDeploys({
+    it('should override restartPolicy', (done) => {
+      const config = worker._overrideDeploys({
         other: 1,
         deployments: {
           other: 1,
@@ -96,31 +95,31 @@ describe('config.assert unit test', () => {
           }
         }
       })
-      .then((config) => {
-        expect(config).to.equal({
+
+      expect(config).to.equal({
+        other: 1,
+        deployments: {
           other: 1,
-          deployments: {
+          restartPolicy: 'Never',
+          spec: {
             other: 1,
-            restartPolicy: 'Never',
-            spec: {
-              other: 1,
-              restartPolicy: 'Never'
-            }
-          },
-          pods: {
-            other: 1,
-            restartPolicy: 'Never',
-            spec: {
-              other: 1,
-              restartPolicy: 'Never'
-            }
+            restartPolicy: 'Never'
           }
-        })
+        },
+        pods: {
+          other: 1,
+          restartPolicy: 'Never',
+          spec: {
+            other: 1,
+            restartPolicy: 'Never'
+          }
+        }
       })
+      done()
     })
 
-    it('should override replicas', () => {
-      return worker._overrideDeploys({
+    it('should override replicas', (done) => {
+      const config = worker._overrideDeploys({
         other: 1,
         deployments: {
           other: 1,
@@ -139,27 +138,27 @@ describe('config.assert unit test', () => {
           }
         }
       })
-      .then((config) => {
-        expect(config).to.equal({
+
+      expect(config).to.equal({
+        other: 1,
+        deployments: {
           other: 1,
-          deployments: {
+          replicas: 1,
+          spec: {
             other: 1,
-            replicas: 1,
-            spec: {
-              other: 1,
-              replicas: 1
-            }
-          },
-          pods: {
-            other: 1,
-            replicas: 1,
-            spec: {
-              other: 1,
-              replicas: 1
-            }
+            replicas: 1
           }
-        })
+        },
+        pods: {
+          other: 1,
+          replicas: 1,
+          spec: {
+            other: 1,
+            replicas: 1
+          }
+        }
       })
+      done()
     })
   }) // end _overrideDeploys
 })
