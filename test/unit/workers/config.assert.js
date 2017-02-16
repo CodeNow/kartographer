@@ -28,4 +28,21 @@ describe('config.apply functional test', () => {
       })
     })
   }) // end _removeUsupportedKeys
+
+  describe('_removeUnsupportedKinds', () => {
+    it('should remove keys we dont care about', () => {
+      return worker._removeUnsupportedKinds({
+        deployments: mockJsonConfigs.deployments1,
+        services: mockJsonConfigs.services1,
+        volumes: {},
+        secrets: {}
+      })
+      .then((config) => {
+        expect(config).to.equal({
+          deployments: mockJsonConfigs.deployments1,
+          services: mockJsonConfigs.services1
+        })
+      })
+    })
+  }) // end _removeUnsupportedKinds
 })

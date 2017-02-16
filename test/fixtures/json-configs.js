@@ -45,9 +45,6 @@ module.exports.deployments1Dirty = {
   })
 }
 
-// unsuppored KINDS
-// PersistentVolume, PersistentVolumeClaim, StorageClass, DaemonSet
-
 // overrides
 // nodeSelector: {
 //   disktype: 'ssd'
