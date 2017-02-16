@@ -54,7 +54,9 @@ describe('config.apply functional test', () => {
       })
       .then((config) => {
         expect(config).to.equal({
-          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } })
+          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
+            clone: true
+          })
         })
       })
     })
@@ -65,7 +67,9 @@ describe('config.apply functional test', () => {
       })
       .then((config) => {
         expect(config).to.equal({
-          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } })
+          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } }, {
+            clone: true
+          })
         })
       })
     })

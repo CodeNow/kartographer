@@ -42,6 +42,8 @@ module.exports.deployments1Dirty = {
         }
       }
     }
+  }, {
+    clone: true
   })
 }
 
@@ -64,6 +66,8 @@ module.exports.services1LoadBalancer = {
     spec: {
       type: 'LoadBalancer'
     }
+  }, {
+    clone: true
   })
 }
 
