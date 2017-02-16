@@ -1,6 +1,7 @@
 'use strict'
 const Code = require('code')
 const Lab = require('lab')
+const merge = require('deepmerge')
 const Promise = require('bluebird')
 
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
@@ -30,7 +31,7 @@ describe('config.apply functional test', () => {
   }) // end _removeUsupportedKeys
 
   describe('_removeUnsupportedKinds', () => {
-    it('should remove keys we dont care about', () => {
+    it('should remove kinds we dont care about', () => {
       return worker._removeUnsupportedKinds({
         deployments: mockJsonConfigs.deployments1,
         services: mockJsonConfigs.services1,
@@ -45,4 +46,30 @@ describe('config.apply functional test', () => {
       })
     })
   }) // end _removeUnsupportedKinds
+
+  describe('_overrideServices', () => {
+    it('should override type to NodePort', () => {
+      return worker._overrideServices({
+        services: mockJsonConfigs.services1LoadBalancer
+      })
+      .then((config) => {
+        // console.log('mockJsonConfigs.services1LoadBalancer', mockJsonConfigs.services1LoadBalancer)
+        // console.log('config', config.services)
+        expect(config).to.equal({
+          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } })
+        })
+      })
+    })
+
+    it('should add type to NodePort', () => {
+      return worker._overrideServices({
+        services: mockJsonConfigs.services1
+      })
+      .then((config) => {
+        expect(config).to.equal({
+          services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } })
+        })
+      })
+    })
+  }) // end _overrideServices
 })

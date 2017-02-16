@@ -59,6 +59,14 @@ module.exports.services1 = {
   frontend: frontendService
 }
 
+module.exports.services1LoadBalancer = {
+  frontend: merge(frontendService, {
+    spec: {
+      type: 'LoadBalancer'
+    }
+  })
+}
+
 module.exports.services2 = {
   frontend: frontendService
   // rabbit: yaml.safeLoadAll(fs.readFileSync('./test/fixtures/service.rabbit.yml'))
