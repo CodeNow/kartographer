@@ -74,4 +74,92 @@ describe('config.apply functional test', () => {
       })
     })
   }) // end _overrideServices
+
+  describe('_overrideDeploys', () => {
+    it('should override restartPolicy', () => {
+      return worker._overrideDeploys({
+        other: 1,
+        deployments: {
+          other: 1,
+          restartPolicy: 'Always',
+          spec: {
+            other: 1,
+            restartPolicy: 'Never'
+          }
+        },
+        pods: {
+          other: 1,
+          restartPolicy: '',
+          spec: {
+            other: 1,
+            restartPolicy: 'OnFailure'
+          }
+        }
+      })
+      .then((config) => {
+        expect(config).to.equal({
+          other: 1,
+          deployments: {
+            other: 1,
+            restartPolicy: 'Never',
+            spec: {
+              other: 1,
+              restartPolicy: 'Never'
+            }
+          },
+          pods: {
+            other: 1,
+            restartPolicy: 'Never',
+            spec: {
+              other: 1,
+              restartPolicy: 'Never'
+            }
+          }
+        })
+      })
+    })
+
+    it('should override replicas', () => {
+      return worker._overrideDeploys({
+        other: 1,
+        deployments: {
+          other: 1,
+          replicas: '1',
+          spec: {
+            other: 1,
+            replicas: '2'
+          }
+        },
+        pods: {
+          other: 1,
+          replicas: '',
+          spec: {
+            other: 1,
+            replicas: '3'
+          }
+        }
+      })
+      .then((config) => {
+        expect(config).to.equal({
+          other: 1,
+          deployments: {
+            other: 1,
+            replicas: 1,
+            spec: {
+              other: 1,
+              replicas: 1
+            }
+          },
+          pods: {
+            other: 1,
+            replicas: 1,
+            spec: {
+              other: 1,
+              replicas: 1
+            }
+          }
+        })
+      })
+    })
+  }) // end _overrideDeploys
 })
