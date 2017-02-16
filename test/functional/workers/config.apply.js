@@ -17,14 +17,13 @@ const it = lab.it
 
 describe('config.apply functional test', () => {
   let testJob
-  const testEndpoint = 'api.runnable.com'
   const testNamespace = 'bargemaster'
   const testConfigId = 'bosun'
 
   describe('run', () => {
     beforeEach((done) => {
       process.env.KUBECTL_PATH = './test/fixtures/kube-ctl-mock.sh'
-      process.env.KUBE_ENDPOINT = testEndpoint
+      process.env.CONFIG_FILE_PATH = '/path'
       database.__purgeDb()
       database.saveJsonConfig(testConfigId, testNamespace, {
         services: mockJsonConfigs.services1
@@ -48,7 +47,7 @@ describe('config.apply functional test', () => {
           expect(didFileExist).to.contain('YES')
 
           expect(args).to.contain(`--namespace=${testNamespace}`)
-          expect(args).to.contain(`--server=${testEndpoint}`)
+          expect(args).to.contain(`--kubeconfig=${process.env.CONFIG_FILE_PATH}`)
           expect(args).to.contain('apply')
           expect(args).to.contain('-f')
           expect(args).to.contain('--output=name')
