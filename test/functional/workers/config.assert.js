@@ -46,20 +46,16 @@ describe('config.apply functional test', () => {
     })
 
     it('should update existing config', () => {
-      database.saveJsonConfig({
-        namespace: testNamespace,
-        configId: testId,
-        configs: {
-          services: mockJsonConfigs.services1
-        }
+      database.saveJsonConfig(testId, testNamespace, {
+        services: mockJsonConfigs.services1
       })
 
       return worker.run()
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
-        .then((config) => {
-          expect(config.configs).to.equal({
+        .then((configs) => {
+          expect(configs).to.equal({
             services: mockJsonConfigs.services1,
             deployments: mockJsonConfigs.deployments1
           })
@@ -71,28 +67,24 @@ describe('config.apply functional test', () => {
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
-        .then((config) => {
-          expect(config.configs).to.equal({
+        .then((configs) => {
+          expect(configs).to.equal({
             deployments: mockJsonConfigs.deployments1
           })
         })
     })
 
     it('should create new namespace with parent config', () => {
-      database.saveJsonConfig({
-        namespace: 'master',
-        configId: testId,
-        configs: {
-          services: mockJsonConfigs.services1
-        }
+      database.saveJsonConfig(testId, 'master', {
+        services: mockJsonConfigs.services1
       })
 
       return worker.run(testJob)
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, testNamespace)
         })
-        .then((config) => {
-          expect(config.configs).to.equal({
+        .then((configs) => {
+          expect(configs).to.equal({
             services: mockJsonConfigs.services1,
             deployments: mockJsonConfigs.deployments1
           })
@@ -100,8 +92,8 @@ describe('config.apply functional test', () => {
         .then((stdout) => {
           return database.getConfigsByIdAndNamespace(testId, 'master')
         })
-        .then((config) => {
-          expect(config.configs).to.equal({
+        .then((configs) => {
+          expect(configs).to.equal({
             services: mockJsonConfigs.services1
           })
         })
@@ -113,10 +105,7 @@ describe('config.apply functional test', () => {
           sinon.assert.calledOnce(publisher.publishTask)
           sinon.assert.calledWith(publisher.publishTask, 'config.apply', {
             configId: testId,
-            namespace: testNamespace,
-            configs: {
-              deployments: mockJsonConfigs.deployments1
-            }
+            namespace: testNamespace
           })
         })
     })
