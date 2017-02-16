@@ -14,7 +14,7 @@ const describe = lab.describe
 const expect = Code.expect
 const it = lab.it
 
-describe('config.apply functional test', () => {
+describe('config.assert unit test', () => {
   const worker = new Worker()
 
   describe('_removeUsupportedKeys', () => {
