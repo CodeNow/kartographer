@@ -53,8 +53,6 @@ describe('config.apply functional test', () => {
         services: mockJsonConfigs.services1LoadBalancer
       })
       .then((config) => {
-        // console.log('mockJsonConfigs.services1LoadBalancer', mockJsonConfigs.services1LoadBalancer)
-        // console.log('config', config.services)
         expect(config).to.equal({
           services: merge(mockJsonConfigs.services1, { frontend: { spec: { type: 'NodePort' } } })
         })
