@@ -5,6 +5,7 @@ const Promise = require('bluebird')
 
 const database = require('external/database.js')
 const Worker = require('workers/config.apply.js')
+const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -25,31 +26,8 @@ describe('config.apply functional test', () => {
       process.env.KUBECTL_PATH = './test/fixtures/kube-ctl-mock.sh'
       process.env.KUBE_ENDPOINT = testEndpoint
       database.__purgeDb()
-      database.saveJsonConfig({
-        configId: testConfigId,
-        namespace: testNamespace,
-        configs: {
-          services: [{
-            'kind': 'Service',
-            'apiVersion': 'v1',
-            'metadata': {
-              'name': 'testt'
-            },
-            'spec': {
-              'selector': {
-                'app': 'testt'
-              },
-              'ports': [
-                {
-                  'protocol': 'TCP',
-                  'port': 80,
-                  'targetPort': 80
-                }
-              ],
-              'type': 'NodePort'
-            }
-          }]
-        }
+      database.saveJsonConfig(testConfigId, testNamespace, {
+        services: mockJsonConfigs.services1
       })
 
       testJob = {
@@ -76,5 +54,5 @@ describe('config.apply functional test', () => {
           expect(args).to.contain('--output=name')
         })
     })
-  }) // end apply
+  }) // end run
 })
