@@ -105,10 +105,7 @@ describe('config.apply functional test', () => {
           sinon.assert.calledOnce(publisher.publishTask)
           sinon.assert.calledWith(publisher.publishTask, 'config.apply', {
             configId: testId,
-            namespace: testNamespace,
-            configs: {
-              deployments: mockJsonConfigs.deployments1
-            }
+            namespace: testNamespace
           })
         })
     })
