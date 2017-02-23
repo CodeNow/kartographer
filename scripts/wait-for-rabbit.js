@@ -1,7 +1,10 @@
 'use strict'
 const Promise = require('bluebird')
 
-const publisher = require('external/publisher.js')
+const RabbitConnector = require('ponos/lib/rabbitmq')
+const publisher = new RabbitConnector({
+  name: 'test'
+})
 
 Promise.try(() => {
   return connect()
