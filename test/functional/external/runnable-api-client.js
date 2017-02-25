@@ -35,11 +35,8 @@ describe('runnable-api-client.js unit test', () => {
 
   describe('getConfigForInstance', () => {
     it('should return configs', () => {
-      apiClient.api.fetchInstances
-
       return apiClient.getConfigForInstance(testInstance)
         .then((out) => {
-          console.log('out', out)
           expect(out).to.equal({
             namespace: 'master',
             configId: `${testOrg}-master`,

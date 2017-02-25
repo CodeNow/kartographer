@@ -16,6 +16,27 @@ const expect = Code.expect
 const it = lab.it
 
 describe('runnable-api-client.js unit test', () => {
+  describe('login', () => {
+    beforeEach((done) => {
+      sinon.stub(apiClient.api, 'githubLogin')
+      done()
+    })
+
+    afterEach((done) => {
+      apiClient.api.githubLogin.restore()
+      done()
+    })
+
+    it('should login to api', () => {
+      apiClient.api.githubLogin.yieldsAsync()
+
+      return apiClient.login()
+        .then(() => {
+          sinon.assert.calledOnce(apiClient.api.githubLogin)
+          sinon.assert.calledWith(apiClient.api.githubLogin, process.env.HELLO_RUNNABLE_GITHUB_TOKEN)
+        })
+    })
+  }) // end login
   describe('_getClusterInfoForMasterPod', () => {
     const testInstance = { owner: { github: 'Ashore' } }
     const testInstances = [
