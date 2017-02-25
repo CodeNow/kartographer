@@ -33,9 +33,9 @@ describe('runnable-api-client.js unit test', () => {
     done()
   })
 
-  describe('getConfigForInstance', () => {
+  describe('getConfigsForInstance', () => {
     it('should return configs', () => {
-      return apiClient.getConfigForInstance(testInstance)
+      return apiClient.getConfigsForInstance(testInstance)
         .then((out) => {
           expect(out).to.equal({
             namespace: 'master',
@@ -137,5 +137,5 @@ describe('runnable-api-client.js unit test', () => {
           })
         })
     })
-  }) // end getConfigForInstance
+  }) // end getConfigsForInstance
 })
