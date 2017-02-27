@@ -5,7 +5,7 @@ services:
     build: .
     environment:
       RABBITMQ_HOSTNAME: rabbit
-    command: "bash -c 'sleep 5 && npm test'"
+    command: "npm test"
     links:
     - rabbit
     depends_on:
