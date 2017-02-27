@@ -3,7 +3,7 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
 
-const apiClient = require('external/runnable-api-client.js')
+const configFetcher = require('external/config-fetcher.js')
 const publisher = require('external/publisher.js')
 const Worker = require('workers/instance.created.js')
 
@@ -23,14 +23,14 @@ describe('instance.created unit test', () => {
 
   describe('run', () => {
     beforeEach((done) => {
-      sinon.stub(apiClient, 'getConfigsForInstance')
+      sinon.stub(configFetcher, 'fromInstanceId')
       sinon.stub(publisher, 'publishTask')
       done()
     })
 
     afterEach((done) => {
       publisher.publishTask.restore()
-      apiClient.getConfigsForInstance.restore()
+      configFetcher.fromInstanceId.restore()
       done()
     })
 
@@ -40,12 +40,12 @@ describe('instance.created unit test', () => {
       }
 
       publisher.publishTask.resolves()
-      apiClient.getConfigsForInstance.resolves(testConfig)
+      configFetcher.fromInstanceId.resolves(testConfig)
 
       return worker.run()
       .then(() => {
-        sinon.assert.calledOnce(apiClient.getConfigsForInstance)
-        sinon.assert.calledWith(apiClient.getConfigsForInstance, testId)
+        sinon.assert.calledOnce(configFetcher.fromInstanceId)
+        sinon.assert.calledWith(configFetcher.fromInstanceId, testId)
 
         sinon.assert.calledOnce(publisher.publishTask)
         sinon.assert.calledWith(publisher.publishTask, 'config.assert', testConfig)

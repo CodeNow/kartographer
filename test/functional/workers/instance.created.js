@@ -5,7 +5,9 @@ const Promise = require('bluebird')
 const sinon = require('sinon')
 
 const apiClient = require('external/runnable-api-client.js')
+const publisher = require('external/publisher.js')
 const mockInstances = require('../../fixtures/instances.js')
+const Worker = require('workers/instance.created.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -16,7 +18,7 @@ const describe = lab.describe
 const expect = Code.expect
 const it = lab.it
 
-describe('runnable-api-client.js unit test', () => {
+describe('instance.created.js functional test', () => {
   const testInstance = mockInstances.masterRepo
   const testInstances = mockInstances.masterCluster
   const testOrg = testInstance.owner.github
@@ -24,20 +26,26 @@ describe('runnable-api-client.js unit test', () => {
   beforeEach((done) => {
     sinon.stub(apiClient.api, 'fetchInstances').yieldsAsync(null, testInstances)
     sinon.stub(apiClient.api, 'fetchInstance').yieldsAsync(null, testInstance)
+    sinon.stub(publisher, 'publishTask')
     done()
   })
 
   afterEach((done) => {
+    publisher.publishTask.restore()
     apiClient.api.fetchInstance.restore()
     apiClient.api.fetchInstances.restore()
     done()
   })
 
-  describe('getConfigsForInstance', () => {
+  describe('run', () => {
     it('should return configs', () => {
-      return apiClient.getConfigsForInstance(testInstance)
+      const worker = new Worker({
+        instanceId: testInstance
+      })
+      return worker.run(testInstance)
         .then((out) => {
-          expect(out).to.equal({
+          sinon.assert.calledOnce(publisher.publishTask)
+          sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
             namespace: 'master',
             configId: `${testOrg}-master`,
             configs: {
@@ -137,5 +145,5 @@ describe('runnable-api-client.js unit test', () => {
           })
         })
     })
-  }) // end getConfigsForInstance
+  }) // end run
 })
