@@ -1,5 +1,4 @@
 'use strict'
-const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
@@ -15,7 +14,6 @@ const lab = exports.lab = Lab.script()
 const afterEach = lab.afterEach
 const beforeEach = lab.beforeEach
 const describe = lab.describe
-const expect = Code.expect
 const it = lab.it
 
 describe('instance.created.js functional test', () => {
