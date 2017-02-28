@@ -18,7 +18,7 @@ const it = lab.it
 describe('instance.created unit test', () => {
   const testId = '123'
   const worker = new Worker({
-    instanceId: testId
+    id: testId
   })
 
   describe('run', () => {
