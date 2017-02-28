@@ -39,8 +39,7 @@ describe('instance.updated.js functional test', () => {
         .then((out) => {
           sinon.assert.calledOnce(publisher.publishTask)
           sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
-            namespace: 'master',
-            configId: `${testOrg}-master`,
+            namespace: `${testOrg}-master`,
             configs: {
               deployments: {
                 kartographer: {
@@ -90,8 +89,7 @@ describe('instance.updated.js functional test', () => {
         .then((out) => {
           sinon.assert.calledOnce(publisher.publishTask)
           sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
-            namespace: 'master',
-            configId: `${testOrg}-master`,
+            namespace: `${testOrg}-master`,
             configs: {
               deployments: {
                 rabbitmq: {

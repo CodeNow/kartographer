@@ -3,7 +3,6 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const database = require('external/database.js')
 const Worker = require('workers/config.apply.js')
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
@@ -18,20 +17,17 @@ const it = lab.it
 describe('config.apply functional test', () => {
   let testJob
   const testNamespace = 'bargemaster'
-  const testConfigId = 'bosun'
 
   describe('run', () => {
     beforeEach((done) => {
       process.env.KUBECTL_PATH = './test/fixtures/kube-ctl-mock.sh'
       process.env.CONFIG_FILE_PATH = '/path'
-      database.__purgeDb()
-      database.saveJsonConfig(testConfigId, testNamespace, {
-        services: mockJsonConfigs.services1
-      })
 
       testJob = {
-        configId: testConfigId,
-        namespace: testNamespace
+        namespace: testNamespace,
+        configs: {
+          services: mockJsonConfigs.services1
+        }
       }
       done()
     })
