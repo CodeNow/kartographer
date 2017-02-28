@@ -6,7 +6,7 @@ const sinon = require('sinon')
 const apiClient = require('external/runnable-api-client.js')
 const publisher = require('external/publisher.js')
 const mockInstances = require('../../fixtures/instances.js')
-const Worker = require('workers/instance.created.js')
+const Worker = require('workers/instance.updated.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -16,7 +16,7 @@ const beforeEach = lab.beforeEach
 const describe = lab.describe
 const it = lab.it
 
-describe('instance.created.js functional test', () => {
+describe('instance.updated.js functional test', () => {
   const testInstance = mockInstances.masterRepo
   const testInstances = mockInstances.masterCluster
   const testOrg = testInstance.owner.github
