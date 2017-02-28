@@ -1,7 +1,6 @@
 FROM node:4.2.2
 
 ENV KUBECTL_PATH=/bin/kubectl
-ENV CONFIG_FILE_PATH=/config
 
 # Get kubectl
 RUN cd /bin && \
