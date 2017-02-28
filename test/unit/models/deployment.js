@@ -107,6 +107,45 @@ describe('deployment.js unit test', () => {
       done()
     })
 
+    it('should support create without container', (done) => {
+      delete mockInstances.masterRepo.container
+
+      const out = Deployment.fromInstance(mockInstances.masterRepo)
+
+      expect(out).to.be.instanceof(Deployment)
+      expect(out.config).to.equal({
+        apiVersion: 'extensions/v1beta1',
+        kind: 'Deployment',
+        metadata: {
+          name: 'kartographer'
+        },
+        spec: {
+          replicas: 1,
+          template: {
+            metadata: {
+              labels: {
+                app: 'kartographer'
+              }
+            },
+            spec: {
+              containers: [{
+                name: 'kartographer',
+                image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
+                env: [{
+                  name: 'RABBITMQ_HOSTNAME',
+                  value: 'rabbitmq-staging-codenow.runnable.ninja'
+                }, {
+                  name: 'test',
+                  value: 'yo'
+                }]
+              }]
+            }
+          }
+        }
+      })
+      done()
+    })
+
     it('should create config from non-repo instance', (done) => {
       const out = Deployment.fromInstance(mockInstances.masterNonRepo)
 
