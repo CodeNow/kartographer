@@ -999,3 +999,98 @@ module.exports.isolatedMaster = {
   ],
   'id': '58b4eed33dc48b1100d9857f'
 }
+
+module.exports.masterRepoK8Deployment = {
+  apiVersion: 'extensions/v1beta1',
+  kind: 'Deployment',
+  metadata: {
+    name: 'kartographer'
+  },
+  spec: {
+    replicas: 1,
+    template: {
+      metadata: {
+        labels: {
+          app: 'kartographer'
+        }
+      },
+      spec: {
+        containers: [{
+          name: 'kartographer',
+          image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
+          env: [{
+            name: 'RABBITMQ_HOSTNAME',
+            value: 'rabbitmq-staging-codenow.runnable.ninja'
+          }, {
+            name: 'test',
+            value: 'yo'
+          }]
+        }]
+      }
+    }
+  }
+}
+
+module.exports.masterNonRepoK8Deployment = {
+  apiVersion: 'extensions/v1beta1',
+  kind: 'Deployment',
+  metadata: {
+    name: 'rabbitmq'
+  },
+  spec: {
+    replicas: 1,
+    template: {
+      metadata: {
+        labels: {
+          app: 'rabbitmq'
+        }
+      },
+      spec: {
+        containers: [{
+          name: 'rabbitmq',
+          image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
+          ports: [{
+            containerPort: 25672
+          }, {
+            containerPort: 4369
+          }, {
+            containerPort: 5671
+          }, {
+            containerPort: 5672
+          }]
+        }]
+      }
+    }
+  }
+}
+
+module.exports.masterNonRepoK8Service = {
+  apiVersion: 'v1',
+  kind: 'Service',
+  metadata: {
+    name: 'rabbitmq'
+  },
+  spec: {
+    selector: {
+      app: 'rabbitmq'
+    },
+    ports: [{
+      protocol: 'TCP',
+      targetPort: 25672,
+      port: 64576
+    }, {
+      protocol: 'TCP',
+      targetPort: 4369,
+      port: 64579
+    }, {
+      protocol: 'TCP',
+      targetPort: 5671,
+      port: 64578
+    }, {
+      protocol: 'TCP',
+      targetPort: 5672,
+      port: 64577
+    }],
+    type: 'NodePort'
+  }
+}
