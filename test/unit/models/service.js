@@ -22,7 +22,13 @@ describe('service.js unit test', () => {
     beforeEach((done) => {
       testDeploy = {
         name: 'test',
-        ports: [80, 90]
+        ports: [{
+          host: 80,
+          container: 90
+        }, {
+          host: 50,
+          container: 60
+        }]
       }
       done()
     })
@@ -32,10 +38,12 @@ describe('service.js unit test', () => {
 
       expect(out.config.spec.ports).to.equal([{
         protocol: 'TCP',
-        targetPort: 80
+        port: 80,
+        targetPort: 90
       }, {
         protocol: 'TCP',
-        targetPort: 90
+        port: 50,
+        targetPort: 60
       }])
       done()
     })
@@ -58,16 +66,20 @@ describe('service.js unit test', () => {
           },
           ports: [{
             protocol: 'TCP',
-            targetPort: 64576
+            targetPort: 25672,
+            port: 64576
           }, {
             protocol: 'TCP',
-            targetPort: 64579
+            targetPort: 4369,
+            port: 64579
           }, {
             protocol: 'TCP',
-            targetPort: 64578
+            targetPort: 5671,
+            port: 64578
           }, {
             protocol: 'TCP',
-            targetPort: 64577
+            targetPort: 5672,
+            port: 64577
           }],
           type: 'NodePort'
         }

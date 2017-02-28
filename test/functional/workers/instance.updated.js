@@ -140,16 +140,20 @@ describe('instance.updated.js functional test', () => {
                     },
                     ports: [{
                       protocol: 'TCP',
-                      targetPort: 64576
+                      targetPort: 25672,
+                      port: 64576
                     }, {
                       protocol: 'TCP',
-                      targetPort: 64579
+                      targetPort: 4369,
+                      port: 64579
                     }, {
                       protocol: 'TCP',
-                      targetPort: 64578
+                      targetPort: 5671,
+                      port: 64578
                     }, {
                       protocol: 'TCP',
-                      targetPort: 64577
+                      targetPort: 5672,
+                      port: 64577
                     }],
                     type: 'NodePort'
                   }
