@@ -36,7 +36,7 @@ describe('service.js unit test', () => {
     it('should add ports', (done) => {
       const out = new Deployment(testDeploy)
 
-      expect(out.config.spec.ports).to.equal([{
+      expect(out.spec.ports).to.equal([{
         protocol: 'TCP',
         port: 80,
         targetPort: 90
@@ -54,7 +54,7 @@ describe('service.js unit test', () => {
       const out = Deployment.fromInstance(mockInstances.masterNonRepo)
 
       expect(out).to.be.instanceof(Deployment)
-      expect(out.config).to.equal({
+      expect(out).to.equal({
         apiVersion: 'v1',
         kind: 'Service',
         metadata: {

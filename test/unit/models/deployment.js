@@ -32,7 +32,7 @@ describe('deployment.js unit test', () => {
 
       const out = new Deployment(testDeploy)
 
-      expect(out.config.spec.template.spec.containers[0].ports).to.equal([{
+      expect(out.spec.template.spec.containers[0].ports).to.equal([{
         containerPort: 80
       }, {
         containerPort: 90
@@ -42,7 +42,7 @@ describe('deployment.js unit test', () => {
 
     it('should not add ports', (done) => {
       const out = new Deployment(testDeploy)
-      expect(out.config.spec.template.spec.containers[0].ports).to.not.exist()
+      expect(out.spec.template.spec.containers[0].ports).to.not.exist()
       done()
     })
 
@@ -58,13 +58,13 @@ describe('deployment.js unit test', () => {
 
       const out = new Deployment(testDeploy)
 
-      expect(out.config.spec.template.spec.containers[0].env).to.equal(testEnvs)
+      expect(out.spec.template.spec.containers[0].env).to.equal(testEnvs)
       done()
     })
 
     it('should not add envs', (done) => {
       const out = new Deployment(testDeploy)
-      expect(out.config.spec.template.spec.containers[0].env).to.not.exist()
+      expect(out.spec.template.spec.containers[0].env).to.not.exist()
       done()
     })
   }) // end constructor
@@ -74,7 +74,7 @@ describe('deployment.js unit test', () => {
       const out = Deployment.fromInstance(mockInstances.masterRepo)
 
       expect(out).to.be.instanceof(Deployment)
-      expect(out.config).to.equal({
+      expect(out).to.equal({
         apiVersion: 'extensions/v1beta1',
         kind: 'Deployment',
         metadata: {
@@ -113,7 +113,7 @@ describe('deployment.js unit test', () => {
       const out = Deployment.fromInstance(mockInstances.masterRepo)
 
       expect(out).to.be.instanceof(Deployment)
-      expect(out.config).to.equal({
+      expect(out).to.equal({
         apiVersion: 'extensions/v1beta1',
         kind: 'Deployment',
         metadata: {
@@ -150,7 +150,7 @@ describe('deployment.js unit test', () => {
       const out = Deployment.fromInstance(mockInstances.masterNonRepo)
 
       expect(out).to.be.instanceof(Deployment)
-      expect(out.config).to.equal({
+      expect(out).to.equal({
         apiVersion: 'extensions/v1beta1',
         kind: 'Deployment',
         metadata: {

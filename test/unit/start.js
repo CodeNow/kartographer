@@ -4,7 +4,6 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
 
-const apiClient = require('external/runnable-api-client.js')
 const publisher = require('../../lib/external/publisher.js')
 const start = require('../../lib/start.js')
 const workerServer = require('../../lib/external/worker-server.js')
@@ -20,7 +19,6 @@ const it = lab.it
 describe('start.js unit test', () => {
   describe('flow', () => {
     beforeEach((done) => {
-      sinon.stub(apiClient, 'login')
       sinon.stub(publisher, 'start')
       sinon.stub(workerServer, 'start')
       sinon.stub(ErrorCat, 'report')
@@ -29,7 +27,6 @@ describe('start.js unit test', () => {
     })
 
     afterEach((done) => {
-      apiClient.login.restore()
       publisher.start.restore()
       workerServer.start.restore()
       ErrorCat.report.restore()
@@ -38,7 +35,6 @@ describe('start.js unit test', () => {
     })
 
     it('should start publisher and server', (done) => {
-      apiClient.login.resolves()
       publisher.start.resolves()
       workerServer.start.resolves()
 
@@ -56,7 +52,6 @@ describe('start.js unit test', () => {
 
     it('should report and exit on error', (done) => {
       publisher.start.rejects(new Error('death star'))
-      apiClient.login.resolves()
 
       start().asCallback((err) => {
         if (err) { return done(err) }

@@ -3,7 +3,6 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
 
-const apiClient = require('external/runnable-api-client.js')
 const publisher = require('external/publisher.js')
 const mockInstances = require('../../fixtures/instances.js')
 const Worker = require('workers/instance.updated.js')
@@ -17,45 +16,25 @@ const describe = lab.describe
 const it = lab.it
 
 describe('instance.updated.js functional test', () => {
-  const testInstance = mockInstances.masterRepo
-  const testInstances = mockInstances.masterCluster
-  const testOrg = testInstance.owner.github
+  const testOrg = mockInstances.masterRepo.owner.github
 
   beforeEach((done) => {
-    sinon.stub(apiClient.api, 'fetchInstances').yieldsAsync(new Error('wrong instance'))
-    sinon.stub(apiClient.api, 'fetchInstance').yieldsAsync(new Error('wrong query'))
     sinon.stub(publisher, 'publishTask')
     done()
   })
 
   afterEach((done) => {
     publisher.publishTask.restore()
-    apiClient.api.fetchInstance.restore()
-    apiClient.api.fetchInstances.restore()
     done()
   })
 
   describe('run', () => {
-    it('should return configs', () => {
-      apiClient.api.fetchInstance
-        .withArgs(testInstance.id)
-        .yieldsAsync(null, testInstance)
-
-      apiClient.api.fetchInstances
-        .withArgs({
-          owner: {
-            github: testOrg
-          },
-          masterPod: true,
-          isTesting: false
-        })
-        .yieldsAsync(null, testInstances)
-
+    it('should return configs for repo container', () => {
+      const testInstance = mockInstances.masterRepo
       const worker = new Worker({
-        instance: {
-          id: testInstance.id
-        }
+        instance: testInstance
       })
+
       return worker.run(testInstance)
         .then((out) => {
           sinon.assert.calledOnce(publisher.publishTask)
@@ -93,7 +72,28 @@ describe('instance.updated.js functional test', () => {
                       }
                     }
                   }
-                },
+                }
+              },
+              services: {}
+            }
+          })
+        })
+    })
+
+    it('should return configs', () => {
+      const testInstance = mockInstances.masterNonRepo
+      const worker = new Worker({
+        instance: testInstance
+      })
+
+      return worker.run(testInstance)
+        .then((out) => {
+          sinon.assert.calledOnce(publisher.publishTask)
+          sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
+            namespace: 'master',
+            configId: `${testOrg}-master`,
+            configs: {
+              deployments: {
                 rabbitmq: {
                   apiVersion: 'extensions/v1beta1',
                   kind: 'Deployment',

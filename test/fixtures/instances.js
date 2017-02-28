@@ -667,8 +667,3 @@ module.exports.masterRepo = {
   ],
   'id': '58af7d66a2b4a41100146cd5'
 }
-
-module.exports.masterCluster = [
-  module.exports.masterRepo,
-  module.exports.masterNonRepo
-]
