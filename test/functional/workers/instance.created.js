@@ -22,8 +22,8 @@ describe('instance.created.js functional test', () => {
   const testOrg = testInstance.owner.github
 
   beforeEach((done) => {
-    sinon.stub(apiClient.api, 'fetchInstances').yieldsAsync(null, testInstances)
-    sinon.stub(apiClient.api, 'fetchInstance').yieldsAsync(null, testInstance)
+    sinon.stub(apiClient.api, 'fetchInstances').yieldsAsync(new Error('wrong instance'))
+    sinon.stub(apiClient.api, 'fetchInstance').yieldsAsync(new Error('wrong query'))
     sinon.stub(publisher, 'publishTask')
     done()
   })
@@ -37,8 +37,24 @@ describe('instance.created.js functional test', () => {
 
   describe('run', () => {
     it('should return configs', () => {
+      apiClient.api.fetchInstance
+        .withArgs(testInstance.id)
+        .yieldsAsync(null, testInstance)
+
+      apiClient.api.fetchInstances
+        .withArgs({
+          owner: {
+            github: testOrg
+          },
+          masterPod: true,
+          isTesting: false
+        })
+        .yieldsAsync(null, testInstances)
+
       const worker = new Worker({
-        instanceId: testInstance
+        instance: {
+          id: testInstance.id
+        }
       })
       return worker.run(testInstance)
         .then((out) => {
