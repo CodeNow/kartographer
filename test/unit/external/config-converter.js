@@ -55,14 +55,14 @@ describe('service.js unit test', () => {
       done()
     })
 
-    it('should return branch', (done) => {
-      const testBranch = 'mate'
+    it('should return instance name', (done) => {
+      const testInstanceName = 'mate'
       const out = configConverter._getNamespace({
         masterPod: false,
-        branch: testBranch
+        instanceName: testInstanceName
       })
 
-      expect(out).to.equal(testBranch)
+      expect(out).to.equal(testInstanceName)
       done()
     })
   }) // end _getNamespace
