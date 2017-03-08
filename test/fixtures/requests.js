@@ -108,18 +108,16 @@ module.exports.masterRepoK8Deployment = {
       metadata: {
         labels: {
           'app': 'kartographer',
-          'runnable.com-docker-swarm-constraints': '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']',
-          'runnable.com-docker-swarm-id': '0510ce3bb98df9adfec67047cf9c32e37003a4964514407f8248da6510452eef',
           'runnable.contextVersionId': '58af7d5ba2b4a41100146cce',
           'runnable.githubOrgId': '2335750',
           'runnable.instanceId': '58af7d66a2b4a41100146cd5',
           'runnable.instanceName': 'kartographer',
           'runnable.instanceShortHash': '2gg6x9',
-          'runnable.ownerUsername': 'CodeNow',
+          'runnable.ownerUsername': 'codenow',
           'runnable.sessionUserGithubId': '2194285',
           'runnable.tid': '74e82c69-0a49-490f-a3dc-f0d5f29f5b3b',
-          'runnable.masterPod': true,
-          'runnable.isTesting': false,
+          'runnable.masterPod': 'true',
+          'runnable.isTesting': 'false',
           'runnable.type': 'user-container'
         }
       },
@@ -144,31 +142,29 @@ module.exports.masterNonRepoK8Deployment = {
   apiVersion: 'extensions/v1beta1',
   kind: 'Deployment',
   metadata: {
-    name: 'RabbitMQ'
+    name: 'rabbitmq'
   },
   spec: {
     replicas: 1,
     template: {
       metadata: {
         labels: {
-          'app': 'RabbitMQ',
-          'runnable.com-docker-swarm-constraints': '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']',
-          'runnable.com-docker-swarm-id': 'f5ec1b0dab11777e1b572f33fd9ca56614c71ac90e3017f6e4dee443a8a66f7d',
+          'app': 'rabbitmq',
           'runnable.contextVersionId': '58af7da82b959010000c0d14',
           'runnable.githubOrgId': '2335750',
           'runnable.instanceId': '58af7dab0243111100cc2d20',
-          'runnable.instanceName': 'RabbitMQ',
+          'runnable.instanceName': 'rabbitmq',
           'runnable.instanceShortHash': 'eyxn0z',
-          'runnable.ownerUsername': 'CodeNow',
+          'runnable.ownerUsername': 'codenow',
           'runnable.sessionUserGithubId': '2194285',
           'runnable.tid': '8dca989f-c492-4b38-9097-da356d487297',
-          'runnable.masterPod': true,
+          'runnable.masterPod': 'true',
           'runnable.type': 'user-container'
         }
       },
       spec: {
         containers: [{
-          name: 'RabbitMQ',
+          name: 'rabbitmq',
           image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
           ports: [{
             containerPort: 25672
@@ -189,11 +185,11 @@ module.exports.masterNonRepoK8Service = {
   apiVersion: 'v1',
   kind: 'Service',
   metadata: {
-    name: 'RabbitMQ'
+    name: 'rabbitmq'
   },
   spec: {
     selector: {
-      app: 'RabbitMQ'
+      app: 'rabbitmq'
     },
     ports: [{
       protocol: 'TCP',
