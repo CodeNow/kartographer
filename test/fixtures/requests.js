@@ -107,7 +107,7 @@ module.exports.masterRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          'app': 'kartographer'
+          app: 'kartographer'
         }
       },
       spec: {
@@ -148,7 +148,7 @@ module.exports.masterNonRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          'app': 'rabbitmq'
+          app: 'rabbitmq'
         }
       },
       spec: {
