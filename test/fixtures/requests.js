@@ -43,7 +43,7 @@ module.exports.masterRepo = {
   },
   'Image': 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
   'Labels': {
-    'com-docker-swarm-constraints': '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']',
+    'com.docker.swarm.constraints': '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']',
     'com-docker-swarm-id': '0510ce3bb98df9adfec67047cf9c32e37003a4964514407f8248da6510452eef',
     'contextVersionId': '58af7d5ba2b4a41100146cce',
     'githubOrgId': '2335750',
