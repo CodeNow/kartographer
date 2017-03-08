@@ -54,16 +54,6 @@ describe('service.js unit test', () => {
       expect(out).to.equal(testIsolationId)
       done()
     })
-
-    it('should return short hash', (done) => {
-      const testShortHash = 'mate'
-      const out = configConverter._getNamespace({
-        masterPod: false,
-        shortHash: testShortHash
-      })
-      expect(out).to.equal(testShortHash)
-      done()
-    })
   }) // end _getNamespace
 }) // end service.js unit test
 

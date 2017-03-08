@@ -22,7 +22,7 @@ module.exports.masterNonRepo = {
     'ownerUsername': 'CodeNow',
     'sessionUserGithubId': '2194285',
     'tid': '8dca989f-c492-4b38-9097-da356d487297',
-    'masterPod': true,
+    'masterPod': 'true',
     'type': 'user-container'
   }
 }
@@ -53,8 +53,7 @@ module.exports.masterRepo = {
     'ownerUsername': 'CodeNow',
     'sessionUserGithubId': '2194285',
     'tid': '74e82c69-0a49-490f-a3dc-f0d5f29f5b3b',
-    'masterPod': true,
-    'isTesting': false,
+    'masterPod': 'true',
     'type': 'user-container'
   }
 }
@@ -90,7 +89,6 @@ module.exports.isolatedMaster = {
     'sessionUserGithubId': '2194285',
     'tid': 'b626c450-de22-4592-bfef-952a912410c5',
     'masterPod': false,
-    'isTesting': false,
     'isolated': '58b5367d535fd51300aa53bc',
     'type': 'user-container'
   }
@@ -126,7 +124,6 @@ module.exports.masterRepoK8Deployment = {
             { name: 'runnable_sessionUserGithubId', value: '2194285'},
             { name: 'runnable_tid', value: '74e82c69-0a49-490f-a3dc-f0d5f29f5b3b'},
             { name: 'runnable_masterPod', value: 'true'},
-            { name: 'runnable_isTesting', value: 'false'},
             { name: 'runnable_type', value: 'user-container'},
             { name: 'RABBITMQ_HOSTNAME', value: 'rabbitmq-staging-codenow.runnable.ninja'},
             { name: 'test', value: 'yo'}
