@@ -107,31 +107,30 @@ module.exports.masterRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          'app': 'kartographer',
-          'runnable.contextVersionId': '58af7d5ba2b4a41100146cce',
-          'runnable.githubOrgId': '2335750',
-          'runnable.instanceId': '58af7d66a2b4a41100146cd5',
-          'runnable.instanceName': 'kartographer',
-          'runnable.instanceShortHash': '2gg6x9',
-          'runnable.ownerUsername': 'codenow',
-          'runnable.sessionUserGithubId': '2194285',
-          'runnable.tid': '74e82c69-0a49-490f-a3dc-f0d5f29f5b3b',
-          'runnable.masterPod': 'true',
-          'runnable.isTesting': 'false',
-          'runnable.type': 'user-container'
+          'app': 'kartographer'
         }
       },
       spec: {
         containers: [{
           name: 'kartographer',
           image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
-          env: [{
-            name: 'RABBITMQ_HOSTNAME',
-            value: 'rabbitmq-staging-codenow.runnable.ninja'
-          }, {
-            name: 'test',
-            value: 'yo'
-          }]
+          env: [
+            { name: 'runnable.com-docker-swarm-constraints', value: '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']'},
+            { name: 'runnable.com-docker-swarm-id', value: '0510ce3bb98df9adfec67047cf9c32e37003a4964514407f8248da6510452eef'},
+            { name: 'runnable.contextVersionId', value: '58af7d5ba2b4a41100146cce'},
+            { name: 'runnable.githubOrgId', value: '2335750'},
+            { name: 'runnable.instanceId', value: '58af7d66a2b4a41100146cd5'},
+            { name: 'runnable.instanceName', value: 'kartographer'},
+            { name: 'runnable.instanceShortHash', value: '2gg6x9'},
+            { name: 'runnable.ownerUsername', value: 'codenow'},
+            { name: 'runnable.sessionUserGithubId', value: '2194285'},
+            { name: 'runnable.tid', value: '74e82c69-0a49-490f-a3dc-f0d5f29f5b3b'},
+            { name: 'runnable.masterPod', value: 'true'},
+            { name: 'runnable.isTesting', value: 'false'},
+            { name: 'runnable.type', value: 'user-container'},
+            { name: 'RABBITMQ_HOSTNAME', value: 'rabbitmq-staging-codenow.runnable.ninja'},
+            { name: 'test', value: 'yo'}
+          ]
         }]
       }
     }
@@ -149,23 +148,27 @@ module.exports.masterNonRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          'app': 'rabbitmq',
-          'runnable.contextVersionId': '58af7da82b959010000c0d14',
-          'runnable.githubOrgId': '2335750',
-          'runnable.instanceId': '58af7dab0243111100cc2d20',
-          'runnable.instanceName': 'rabbitmq',
-          'runnable.instanceShortHash': 'eyxn0z',
-          'runnable.ownerUsername': 'codenow',
-          'runnable.sessionUserGithubId': '2194285',
-          'runnable.tid': '8dca989f-c492-4b38-9097-da356d487297',
-          'runnable.masterPod': 'true',
-          'runnable.type': 'user-container'
+          'app': 'rabbitmq'
         }
       },
       spec: {
         containers: [{
           name: 'rabbitmq',
           image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
+          env: [
+            { name: 'runnable.com-docker-swarm-constraints', value: '[\'org==2335750\',\'node==~ip-10-4-146-17.2335750\']'},
+            { name: 'runnable.com-docker-swarm-id', value: 'f5ec1b0dab11777e1b572f33fd9ca56614c71ac90e3017f6e4dee443a8a66f7d'},
+            { name: 'runnable.contextVersionId', value: '58af7da82b959010000c0d14'},
+            { name: 'runnable.githubOrgId', value: '2335750'},
+            { name: 'runnable.instanceId', value: '58af7dab0243111100cc2d20'},
+            { name: 'runnable.instanceName', value: 'rabbitmq'},
+            { name: 'runnable.instanceShortHash', value: 'eyxn0z'},
+            { name: 'runnable.ownerUsername', value: 'codenow'},
+            { name: 'runnable.sessionUserGithubId', value: '2194285'},
+            { name: 'runnable.tid', value: '8dca989f-c492-4b38-9097-da356d487297'},
+            { name: 'runnable.masterPod', value: 'true'},
+            { name: 'runnable.type', value: 'user-container'}
+          ],
           ports: [{
             containerPort: 25672
           }, {
