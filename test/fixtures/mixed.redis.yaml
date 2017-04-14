@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       labels:
-        app: redis
+        name: redis
     spec:
       containers:
       - name: redis
@@ -22,7 +22,7 @@ metadata:
   name: redis
 spec:
   selector:
-    app: redis
+    name: redis
   ports:
     - protocol: TCP
       port: 6379

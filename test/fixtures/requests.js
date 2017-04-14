@@ -105,7 +105,7 @@ module.exports.masterRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          app: 'kartographer'
+          name: 'kartographer'
         }
       },
       spec: {
@@ -145,7 +145,7 @@ module.exports.masterNonRepoK8Deployment = {
     template: {
       metadata: {
         labels: {
-          app: 'rabbitmq'
+          name: 'rabbitmq'
         }
       },
       spec: {
@@ -189,7 +189,7 @@ module.exports.masterNonRepoK8Service = {
   },
   spec: {
     selector: {
-      app: 'rabbitmq'
+      name: 'rabbitmq'
     },
     ports: [{
       protocol: 'TCP',

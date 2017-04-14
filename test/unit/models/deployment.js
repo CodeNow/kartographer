@@ -85,7 +85,7 @@ describe('deployment.js unit test', () => {
           template: {
             metadata: {
               labels: {
-                app: 'kartographer'
+                name: 'kartographer'
               }
             },
             spec: {
@@ -124,7 +124,7 @@ describe('deployment.js unit test', () => {
           template: {
             metadata: {
               labels: {
-                app: 'kartographer'
+                name: 'kartographer'
               }
             },
             spec: {
@@ -161,7 +161,7 @@ describe('deployment.js unit test', () => {
           template: {
             metadata: {
               labels: {
-                app: 'rabbitmq'
+                name: 'rabbitmq'
               }
             },
             spec: {

@@ -62,7 +62,7 @@ describe('service.js unit test', () => {
         },
         spec: {
           selector: {
-            app: 'rabbitmq'
+            name: 'rabbitmq'
           },
           ports: [{
             protocol: 'TCP',

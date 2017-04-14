@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       labels:
-        app: rabbit
+        name: rabbit
     spec:
       containers:
       - name: rabbit
