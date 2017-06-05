@@ -80,6 +80,12 @@ describe('kubectl-wrapper.js unit test', () => {
       expect(error).to.be.instanceof(KubectlWrapper.ValidationError)
       done()
     })
+
+    it('should return NotFound', (done) => {
+      const error = kubectl._convertError('echo', 'Error from server (NotFound): namespaces "davy-jones-locker" not found')
+      expect(error).to.be.instanceof(KubectlWrapper.NotFoundError)
+      done()
+    })
   }) // end _convertError
 })
 
