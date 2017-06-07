@@ -62,6 +62,37 @@ describe('job.js unit test', () => {
       done()
     })
 
+    it('should add labels to envs', (done) => {
+      const testLabels = {
+        name: '1',
+        other_name: '2'
+      }
+      testDeploy.labels = testLabels
+
+      const out = new Job(testDeploy)
+
+      expect(out.spec.template.spec.containers[0].env).to.equal([{
+        name: 'runnable_name',
+        value: testLabels.name
+      }, {
+        name: 'runnable_other_name',
+        value: testLabels.other_name
+      }])
+      done()
+    })
+
+    it('should add command and args', (done) => {
+      const testCommand = ['bash', '-c']
+      const testArgs = ['echo', 'hi']
+      testDeploy.command = testCommand.concat(testArgs)
+
+      const out = new Job(testDeploy)
+
+      expect(out.spec.template.spec.containers[0].command).to.equal(testCommand)
+      expect(out.spec.template.spec.containers[0].args).to.equal(testArgs)
+      done()
+    })
+
     it('should not add envs', (done) => {
       const out = new Job(testDeploy)
       expect(out.spec.template.spec.containers[0].env).to.not.exist()
