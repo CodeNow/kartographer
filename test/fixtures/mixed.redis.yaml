@@ -1,14 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: redis
 spec:
-  replicas: 1
   template:
     metadata:
       labels:
-        app: redis
+        name: redis
     spec:
+      restartPolicy: 'Never'
       containers:
       - name: redis
         image: redis:3.0
@@ -22,7 +22,7 @@ metadata:
   name: redis
 spec:
   selector:
-    app: redis
+    name: redis
   ports:
     - protocol: TCP
       port: 6379

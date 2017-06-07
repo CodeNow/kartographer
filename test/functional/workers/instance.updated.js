@@ -3,9 +3,9 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
 
-const publisher = require('external/publisher.js')
+const publisher = require('../../../lib/external/publisher.js')
 const mockInstances = require('../../fixtures/instances.js')
-const Worker = require('workers/instance.updated.js')
+const Worker = require('../../../lib/workers/instance.updated.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -35,14 +35,14 @@ describe('instance.updated.js functional test', () => {
         instance: testInstance
       })
 
-      return worker.run(testInstance)
+      return worker.run()
       .then((out) => {
         sinon.assert.calledOnce(publisher.publishTask)
         sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
           namespace: `${testOrg}-master`,
           configs: {
-            deployments: {
-              kartographer: mockInstances.masterRepoK8Deployment
+            jobs: {
+              kartographer: mockInstances.masterRepoK8Job
             },
             services: {}
           }
@@ -56,14 +56,14 @@ describe('instance.updated.js functional test', () => {
         instance: testInstance
       })
 
-      return worker.run(testInstance)
+      return worker.run()
       .then((out) => {
         sinon.assert.calledOnce(publisher.publishTask)
         sinon.assert.calledWith(publisher.publishTask, 'config.assert', {
           namespace: `${testOrg}-master`,
           configs: {
-            deployments: {
-              rabbitmq: mockInstances.masterNonRepoK8Deployment
+            jobs: {
+              rabbitmq: mockInstances.masterNonRepoK8Job
             },
             services: {
               rabbitmq: mockInstances.masterNonRepoK8Service

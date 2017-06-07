@@ -3,16 +3,16 @@ const fs = require('fs')
 const merge = require('deepmerge')
 const yaml = require('js-yaml')
 
-const frontendDeploy = yaml.safeLoad(fs.readFileSync('./test/fixtures/deployment.frontend.yml'))
-const rabbitDeploy = yaml.safeLoad(fs.readFileSync('./test/fixtures/deployment.rabbit.yml'))
-const frontendService = yaml.safeLoad(fs.readFileSync('./test/fixtures/service.frontend.yml'))
+const frontendJob = yaml.safeLoad(fs.readFileSync('./test/fixtures/job.frontend.yml').toString())
+const rabbitJob = yaml.safeLoad(fs.readFileSync('./test/fixtures/job.rabbit.yml').toString())
+const frontendService = yaml.safeLoad(fs.readFileSync('./test/fixtures/service.frontend.yml').toString())
 
-module.exports.deployments1 = {
-  frontend: frontendDeploy
+module.exports.jobs1 = {
+  frontend: frontendJob
 }
 
-module.exports.deployments1Dirty = {
-  frontend: merge(frontendDeploy, {
+module.exports.jobs1Dirty = {
+  frontend: merge(frontendJob, {
     metadata: {
       annotations: {
         'scheduler.alpha.kubernetes.io/affinity': 'like'
@@ -51,9 +51,9 @@ module.exports.deployments1Dirty = {
 // nodeSelector: {
 //   disktype: 'ssd'
 // }
-module.exports.deployments2 = {
-  frontend: frontendDeploy,
-  rabbit: rabbitDeploy
+module.exports.jobs2 = {
+  frontend: frontendJob,
+  rabbit: rabbitJob
 }
 
 // TODO: fix mixed files

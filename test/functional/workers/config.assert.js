@@ -26,7 +26,7 @@ describe('config.apply functional test', () => {
       testJob = {
         namespace: testNamespace,
         configs: {
-          deployments: mockJsonConfigs.deployments1
+          jobs: mockJsonConfigs.jobs1
         }
       }
 
@@ -46,7 +46,7 @@ describe('config.apply functional test', () => {
           sinon.assert.calledWith(publisher.publishTask, 'config.apply', {
             namespace: testNamespace,
             configs: {
-              deployments: mockJsonConfigs.deployments1
+              jobs: mockJsonConfigs.jobs1
             }
           })
         })

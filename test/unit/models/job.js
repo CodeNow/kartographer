@@ -4,7 +4,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const Deployment = require('models/deployment.js')
+const Job = require('../../../lib/models/job.js')
 const mockInstances = require('../../fixtures/instances.js')
 
 require('sinon-as-promised')(Promise)
@@ -15,7 +15,7 @@ const describe = lab.describe
 const expect = Code.expect
 const it = lab.it
 
-describe('deployment.js unit test', () => {
+describe('job.js unit test', () => {
   describe('constructor', () => {
     let testDeploy
 
@@ -30,7 +30,7 @@ describe('deployment.js unit test', () => {
     it('should add ports', (done) => {
       testDeploy.ports = [80, 90]
 
-      const out = new Deployment(testDeploy)
+      const out = new Job(testDeploy)
 
       expect(out.spec.template.spec.containers[0].ports).to.equal([{
         containerPort: 80
@@ -41,7 +41,7 @@ describe('deployment.js unit test', () => {
     })
 
     it('should not add ports', (done) => {
-      const out = new Deployment(testDeploy)
+      const out = new Job(testDeploy)
       expect(out.spec.template.spec.containers[0].ports).to.not.exist()
       done()
     })
@@ -56,14 +56,14 @@ describe('deployment.js unit test', () => {
       }]
       testDeploy.env = testEnvs
 
-      const out = new Deployment(testDeploy)
+      const out = new Job(testDeploy)
 
       expect(out.spec.template.spec.containers[0].env).to.equal(testEnvs)
       done()
     })
 
     it('should not add envs', (done) => {
-      const out = new Deployment(testDeploy)
+      const out = new Job(testDeploy)
       expect(out.spec.template.spec.containers[0].env).to.not.exist()
       done()
     })
@@ -71,24 +71,24 @@ describe('deployment.js unit test', () => {
 
   describe('fromInstance', () => {
     it('should create config from repo instance', (done) => {
-      const out = Deployment.fromInstance(mockInstances.masterRepo)
+      const out = Job.fromInstance(mockInstances.masterRepo)
 
-      expect(out).to.be.instanceof(Deployment)
+      expect(out).to.be.instanceof(Job)
       expect(out).to.equal({
-        apiVersion: 'extensions/v1beta1',
-        kind: 'Deployment',
+        apiVersion: 'batch/v1',
+        kind: 'Job',
         metadata: {
           name: 'kartographer'
         },
         spec: {
-          replicas: 1,
           template: {
             metadata: {
               labels: {
-                app: 'kartographer'
+                name: 'kartographer'
               }
             },
             spec: {
+              restartPolicy: 'Never',
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
@@ -110,24 +110,24 @@ describe('deployment.js unit test', () => {
     it('should support create without container', (done) => {
       delete mockInstances.masterRepo.container
 
-      const out = Deployment.fromInstance(mockInstances.masterRepo)
+      const out = Job.fromInstance(mockInstances.masterRepo)
 
-      expect(out).to.be.instanceof(Deployment)
+      expect(out).to.be.instanceof(Job)
       expect(out).to.equal({
-        apiVersion: 'extensions/v1beta1',
-        kind: 'Deployment',
+        apiVersion: 'batch/v1',
+        kind: 'Job',
         metadata: {
           name: 'kartographer'
         },
         spec: {
-          replicas: 1,
           template: {
             metadata: {
               labels: {
-                app: 'kartographer'
+                name: 'kartographer'
               }
             },
             spec: {
+              restartPolicy: 'Never',
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
@@ -147,24 +147,24 @@ describe('deployment.js unit test', () => {
     })
 
     it('should create config from non-repo instance', (done) => {
-      const out = Deployment.fromInstance(mockInstances.masterNonRepo)
+      const out = Job.fromInstance(mockInstances.masterNonRepo)
 
-      expect(out).to.be.instanceof(Deployment)
+      expect(out).to.be.instanceof(Job)
       expect(out).to.equal({
-        apiVersion: 'extensions/v1beta1',
-        kind: 'Deployment',
+        apiVersion: 'batch/v1',
+        kind: 'Job',
         metadata: {
           name: 'rabbitmq'
         },
         spec: {
-          replicas: 1,
           template: {
             metadata: {
               labels: {
-                app: 'rabbitmq'
+                name: 'rabbitmq'
               }
             },
             spec: {
+              restartPolicy: 'Never',
               containers: [{
                 name: 'rabbitmq',
                 image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
@@ -185,5 +185,5 @@ describe('deployment.js unit test', () => {
       done()
     })
   }) // end fromInstance
-}) // end deployment.js unit test
+}) // end job.js unit test
 

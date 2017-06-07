@@ -31,7 +31,7 @@ describe('KubectlWrapper functional test', () => {
 
       testConfig = {
         service: mockJsonConfigs.services1,
-        deployment: mockJsonConfigs.deployments1
+        job: mockJsonConfigs.jobs1
       }
       done()
     })

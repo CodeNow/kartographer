@@ -1000,21 +1000,21 @@ module.exports.isolatedMaster = {
   'id': '58b4eed33dc48b1100d9857f'
 }
 
-module.exports.masterRepoK8Deployment = {
-  apiVersion: 'extensions/v1beta1',
-  kind: 'Deployment',
+module.exports.masterRepoK8Job = {
+  apiVersion: 'batch/v1',
+  kind: 'Job',
   metadata: {
     name: 'kartographer'
   },
   spec: {
-    replicas: 1,
     template: {
       metadata: {
         labels: {
-          app: 'kartographer'
+          name: 'kartographer'
         }
       },
       spec: {
+        restartPolicy: 'Never',
         containers: [{
           name: 'kartographer',
           image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
@@ -1031,21 +1031,21 @@ module.exports.masterRepoK8Deployment = {
   }
 }
 
-module.exports.masterNonRepoK8Deployment = {
-  apiVersion: 'extensions/v1beta1',
-  kind: 'Deployment',
+module.exports.masterNonRepoK8Job = {
+  apiVersion: 'batch/v1',
+  kind: 'Job',
   metadata: {
     name: 'rabbitmq'
   },
   spec: {
-    replicas: 1,
     template: {
       metadata: {
         labels: {
-          app: 'rabbitmq'
+          name: 'rabbitmq'
         }
       },
       spec: {
+        restartPolicy: 'Never',
         containers: [{
           name: 'rabbitmq',
           image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
@@ -1072,7 +1072,7 @@ module.exports.masterNonRepoK8Service = {
   },
   spec: {
     selector: {
-      app: 'rabbitmq'
+      name: 'rabbitmq'
     },
     ports: [{
       protocol: 'TCP',
