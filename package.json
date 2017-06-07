@@ -1,6 +1,6 @@
 {
   "name": "kartographer",
-  "version": "4.0.4",
+  "version": "0.1.0",
   "description": "Kartographer creates and maintains configurations for Kubernetes",
   "main": "index.js",
   "directories": {

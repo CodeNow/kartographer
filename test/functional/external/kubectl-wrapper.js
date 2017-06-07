@@ -46,4 +46,26 @@ describe('KubectlWrapper functional test', () => {
         })
     })
   }) // end apply
+
+  describe('delete', () => {
+    beforeEach((done) => {
+      process.env.KUBECTL_PATH = './test/fixtures/kube-ctl-mock.sh'
+      process.env.CONFIG_FILE_PATH = '/path'
+
+      kubectl = new KubectlWrapper({
+        namespace: testNamespace
+      })
+
+      done()
+    })
+
+    it('should call delete cluster', () => {
+      return kubectl.deleteNamespace()
+        .then((stdout) => {
+          const args = stdout.split(':::')[2]
+
+          expect(args).to.contain(`delete namespace ${testNamespace}`)
+        })
+    })
+  }) // end delete
 })
