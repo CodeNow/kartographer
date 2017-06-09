@@ -20,10 +20,10 @@ describe('config.assert unit test', () => {
   describe('_removeUsupportedKeys', () => {
     it('should remove keys we dont care about', (done) => {
       const config = worker._removeUsupportedKeys({
-        deployments: mockJsonConfigs.deployments1Dirty
+        jobs: mockJsonConfigs.jobs1Dirty
       })
       expect(config).to.equal({
-        deployments: mockJsonConfigs.deployments1
+        jobs: mockJsonConfigs.jobs1
       })
       done()
     })
@@ -32,14 +32,14 @@ describe('config.assert unit test', () => {
   describe('_removeUnsupportedKinds', () => {
     it('should remove kinds we dont care about', (done) => {
       const config = worker._removeUnsupportedKinds({
-        deployments: mockJsonConfigs.deployments1,
+        jobs: mockJsonConfigs.jobs1,
         services: mockJsonConfigs.services1,
         volumes: {},
         secrets: {}
       })
 
       expect(config).to.equal({
-        deployments: mockJsonConfigs.deployments1,
+        jobs: mockJsonConfigs.jobs1,
         services: mockJsonConfigs.services1
       })
       done()
@@ -73,92 +73,4 @@ describe('config.assert unit test', () => {
       done()
     })
   }) // end _overrideServices
-
-  describe('_overrideDeploys', () => {
-    it('should override restartPolicy', (done) => {
-      const config = worker._overrideDeploys({
-        other: 1,
-        deployments: {
-          other: 1,
-          restartPolicy: 'Always',
-          spec: {
-            other: 1,
-            restartPolicy: 'Never'
-          }
-        },
-        pods: {
-          other: 1,
-          restartPolicy: '',
-          spec: {
-            other: 1,
-            restartPolicy: 'OnFailure'
-          }
-        }
-      })
-
-      expect(config).to.equal({
-        other: 1,
-        deployments: {
-          other: 1,
-          restartPolicy: 'Never',
-          spec: {
-            other: 1,
-            restartPolicy: 'Never'
-          }
-        },
-        pods: {
-          other: 1,
-          restartPolicy: 'Never',
-          spec: {
-            other: 1,
-            restartPolicy: 'Never'
-          }
-        }
-      })
-      done()
-    })
-
-    it('should override replicas', (done) => {
-      const config = worker._overrideDeploys({
-        other: 1,
-        deployments: {
-          other: 1,
-          replicas: '1',
-          spec: {
-            other: 1,
-            replicas: '2'
-          }
-        },
-        pods: {
-          other: 1,
-          replicas: '',
-          spec: {
-            other: 1,
-            replicas: '3'
-          }
-        }
-      })
-
-      expect(config).to.equal({
-        other: 1,
-        deployments: {
-          other: 1,
-          replicas: 1,
-          spec: {
-            other: 1,
-            replicas: 1
-          }
-        },
-        pods: {
-          other: 1,
-          replicas: 1,
-          spec: {
-            other: 1,
-            replicas: 1
-          }
-        }
-      })
-      done()
-    })
-  }) // end _overrideDeploys
 })

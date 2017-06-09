@@ -4,7 +4,7 @@ metadata:
   name: rabbit
 spec:
   selector:
-    app: rabbit
+    name: rabbit
   ports:
     - protocol: TCP
       port: 5672
@@ -16,7 +16,7 @@ metadata:
   name: rabbit-admin
 spec:
   selector:
-    app: rabbit
+    name: rabbit
   ports:
     - protocol: TCP
       port: 15672

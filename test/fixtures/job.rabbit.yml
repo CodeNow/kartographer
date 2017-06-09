@@ -1,14 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: rabbit
 spec:
-  replicas: 1
   template:
     metadata:
       labels:
-        app: rabbit
+        name: rabbit
     spec:
+      restartPolicy: 'Never'
       containers:
       - name: rabbit
         image: rabbitmq:3-management

@@ -4,7 +4,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const Deployment = require('models/service.js')
+const Service = require('models/service.js')
 const mockInstances = require('../../fixtures/instances.js')
 
 require('sinon-as-promised')(Promise)
@@ -17,10 +17,10 @@ const it = lab.it
 
 describe('service.js unit test', () => {
   describe('constructor', () => {
-    let testDeploy
+    let testService
 
     beforeEach((done) => {
-      testDeploy = {
+      testService = {
         name: 'test',
         ports: [{
           host: 80,
@@ -34,7 +34,7 @@ describe('service.js unit test', () => {
     })
 
     it('should add ports', (done) => {
-      const out = new Deployment(testDeploy)
+      const out = new Service(testService)
 
       expect(out.spec.ports).to.equal([{
         protocol: 'TCP',
@@ -51,9 +51,9 @@ describe('service.js unit test', () => {
 
   describe('fromInstance', () => {
     it('should create config from repo instance', (done) => {
-      const out = Deployment.fromInstance(mockInstances.masterNonRepo)
+      const out = Service.fromInstance(mockInstances.masterNonRepo)
 
-      expect(out).to.be.instanceof(Deployment)
+      expect(out).to.be.instanceof(Service)
       expect(out).to.equal({
         apiVersion: 'v1',
         kind: 'Service',
@@ -62,7 +62,7 @@ describe('service.js unit test', () => {
         },
         spec: {
           selector: {
-            app: 'rabbitmq'
+            name: 'rabbitmq'
           },
           ports: [{
             protocol: 'TCP',
