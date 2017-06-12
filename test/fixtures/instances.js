@@ -1,3 +1,6 @@
+'use strict'
+require('loadenv')()
+
 module.exports.masterNonRepo = {
   '_id': '58af7dab0243111100cc2d20',
   'build': {
@@ -1018,6 +1021,11 @@ module.exports.masterRepoK8Job = {
         containers: [{
           name: 'kartographer',
           image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
+          resources: {
+            requests: {
+              memory: process.env.SOFT_MEMORY_LIMIT
+            }
+          },
           env: [{
             name: 'RABBITMQ_HOSTNAME',
             value: 'rabbitmq-staging-codenow.runnable.ninja'
@@ -1049,6 +1057,11 @@ module.exports.masterNonRepoK8Job = {
         containers: [{
           name: 'rabbitmq',
           image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
+          resources: {
+            requests: {
+              memory: process.env.SOFT_MEMORY_LIMIT
+            }
+          },
           ports: [{
             containerPort: 25672
           }, {
