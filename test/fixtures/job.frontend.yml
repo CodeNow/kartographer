@@ -12,6 +12,9 @@ spec:
       containers:
       - name: frontend
         image: runnable/reactive-demo:frontend
+        resources:
+          limits:
+            cpu: '60'
         env:
         - name: RABBITMQ_HOSTNAME
           value: rabbit
