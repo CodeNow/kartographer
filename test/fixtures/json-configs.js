@@ -27,15 +27,15 @@ module.exports.jobs1Dirty = {
         },
         spec: {
           containers: [{
+            resources: {
+              limits: {
+                cpu: '60'
+              }
+            },
             volumeMounts: {
               name: 'vol'
             }
           }],
-          resources: {
-            limits: {
-              cpu: '60'
-            }
-          },
           volumes: {
             name: 'vol'
           }

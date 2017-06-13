@@ -16,6 +16,8 @@ const expect = Code.expect
 const it = lab.it
 
 describe('job.js unit test', () => {
+  const softMemoryLimit = '128m'
+
   describe('constructor', () => {
     let testDeploy
 
@@ -98,9 +100,30 @@ describe('job.js unit test', () => {
       expect(out.spec.template.spec.containers[0].env).to.not.exist()
       done()
     })
+
+    it('should use SOFT_MEMORY_LIMIT', (done) => {
+      process.env.SOFT_MEMORY_LIMIT = softMemoryLimit
+      const out = new Job(testDeploy)
+      expect(out.spec.template.spec.containers[0].resources.requests.memory).to.equal(softMemoryLimit)
+      done()
+    })
+
+    it('should use softMemoryLimit', (done) => {
+      const testLimit = '500g'
+      process.env.SOFT_MEMORY_LIMIT = softMemoryLimit
+      testDeploy.softMemoryLimit = testLimit
+      const out = new Job(testDeploy)
+      expect(out.spec.template.spec.containers[0].resources.requests.memory).to.equal(testLimit)
+      done()
+    })
   }) // end constructor
 
   describe('fromInstance', () => {
+    beforeEach((done) => {
+      process.env.SOFT_MEMORY_LIMIT = softMemoryLimit
+      done()
+    })
+
     it('should create config from repo instance', (done) => {
       const out = Job.fromInstance(mockInstances.masterRepo)
 
@@ -123,6 +146,11 @@ describe('job.js unit test', () => {
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
+                resources: {
+                  requests: {
+                    memory: softMemoryLimit
+                  }
+                },
                 env: [{
                   name: 'RABBITMQ_HOSTNAME',
                   value: 'rabbitmq-staging-codenow.runnable.ninja'
@@ -162,6 +190,11 @@ describe('job.js unit test', () => {
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
+                resources: {
+                  requests: {
+                    memory: softMemoryLimit
+                  }
+                },
                 env: [{
                   name: 'RABBITMQ_HOSTNAME',
                   value: 'rabbitmq-staging-codenow.runnable.ninja'
@@ -199,6 +232,11 @@ describe('job.js unit test', () => {
               containers: [{
                 name: 'rabbitmq',
                 image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
+                resources: {
+                  requests: {
+                    memory: softMemoryLimit
+                  }
+                },
                 ports: [{
                   containerPort: 25672
                 }, {
