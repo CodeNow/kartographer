@@ -4,8 +4,8 @@ const Promise = require('bluebird')
 const sinon = require('sinon')
 
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
-const publisher = require('external/publisher.js')
-const Worker = require('workers/config.assert.js')
+const publisher = require('../../../lib/external/publisher.js')
+const Worker = require('../../../lib/workers/config.assert.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()

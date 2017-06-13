@@ -4,7 +4,6 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 
 const Worker = require('../../../lib/workers/namespace.delete.js')
-const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()

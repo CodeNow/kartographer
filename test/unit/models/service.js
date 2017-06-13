@@ -4,7 +4,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const Service = require('models/service.js')
+const Service = require('../../../lib/models/service.js')
 const mockInstances = require('../../fixtures/instances.js')
 
 require('sinon-as-promised')(Promise)
