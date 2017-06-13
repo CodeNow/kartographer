@@ -3,7 +3,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const Worker = require('workers/config.apply.js')
+const Worker = require('../../../lib/workers/config.apply.js')
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)

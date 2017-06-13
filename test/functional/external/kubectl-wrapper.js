@@ -4,7 +4,7 @@ const fs = require('fs')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const KubectlWrapper = require('external/kubectl-wrapper.js')
+const KubectlWrapper = require('../../../lib/external/kubectl-wrapper.js')
 const mockJsonConfigs = require('../../fixtures/json-configs.js')
 
 require('sinon-as-promised')(Promise)

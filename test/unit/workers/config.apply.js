@@ -4,7 +4,7 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const WorkerStopError = require('error-cat/errors/worker-stop-error')
 
-const Worker = require('workers/config.apply.js')
+const Worker = require('../../../lib/workers/config.apply.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()

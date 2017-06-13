@@ -5,7 +5,7 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 const sinon = require('sinon')
 
-const KubectlWrapper = require('external/kubectl-wrapper.js')
+const KubectlWrapper = require('../../../lib/external/kubectl-wrapper.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()

@@ -4,7 +4,7 @@ const Code = require('code')
 const Lab = require('lab')
 const Promise = require('bluebird')
 
-const configConverter = require('external/config-converter.js')
+const configConverter = require('../../../lib/external/config-converter.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
