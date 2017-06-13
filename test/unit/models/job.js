@@ -143,6 +143,9 @@ describe('job.js unit test', () => {
             },
             spec: {
               restartPolicy: 'Never',
+              nodeSelector: {
+                'runnable.org.id':123
+              },
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
@@ -187,6 +190,9 @@ describe('job.js unit test', () => {
             },
             spec: {
               restartPolicy: 'Never',
+              nodeSelector: {
+                'runnable.org.id':123
+              },
               containers: [{
                 name: 'kartographer',
                 image: 'localhost/2335750/58af7d5a1d7ce610001bec73:58af7d5ba2b4a41100146cce',
@@ -229,6 +235,9 @@ describe('job.js unit test', () => {
             },
             spec: {
               restartPolicy: 'Never',
+              nodeSelector: {
+                'runnable.org.id':123
+              },
               containers: [{
                 name: 'rabbitmq',
                 image: 'localhost/2335750/58af7da8a2b4a41100146cde:58af7da82b959010000c0d14',
