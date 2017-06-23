@@ -6,10 +6,16 @@
   "directories": {
     "test": "test"
   },
+  "standard": {
+    "ignore": [
+      "/test/"
+    ]
+  },
   "scripts": {
     "start": "NODE_PATH=./lib node index.js",
     "test": "npm run wait-for-rabbit && NODE_PATH=./lib NODE_ENV=test lab -v -c -t 99.73 ./test",
-    "wait-for-rabbit": "NODE_PATH=./lib node ./scripts/wait-for-rabbit.js"
+    "wait-for-rabbit": "NODE_PATH=./lib node ./scripts/wait-for-rabbit.js",
+    "lint": "node_modules/.bin/standard"
   },
   "repository": {
     "type": "git",
@@ -39,6 +45,7 @@
     "monitor-dog": "^1.5.0",
     "omit-deep": "^0.3.0",
     "ponos": "^5.3.1",
+    "standard": "^5.3.1",
     "tmp-promise": "^1.0.3"
   },
   "devDependencies": {
