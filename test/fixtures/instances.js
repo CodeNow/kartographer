@@ -3,7 +3,6 @@ require('loadenv')()
 
 module.exports.masterNonRepo = {
   '_id': '58af7dab0243111100cc2d20',
-  'orgId': 123,
   'build': {
     'buildNumber': 60738,
     'contexts': [
@@ -369,7 +368,6 @@ module.exports.masterNonRepo = {
 
 module.exports.masterRepo = {
   '_id': '58af7d66a2b4a41100146cd5',
-  'orgId': 123,
   'build': {
     'buildNumber': 60743,
     'contexts': [
@@ -1021,7 +1019,7 @@ module.exports.masterRepoK8Job = {
       spec: {
         restartPolicy: 'Never',
         nodeSelector: {
-          'runnable.org.id': 123
+          'runnable.org.id': 2335750
         },
         containers: [{
           name: 'kartographer',
@@ -1060,7 +1058,7 @@ module.exports.masterNonRepoK8Job = {
       spec: {
         restartPolicy: 'Never',
         nodeSelector: {
-          'runnable.org.id':123
+          'runnable.org.id': 2335750
         },
         containers: [{
           name: 'rabbitmq',

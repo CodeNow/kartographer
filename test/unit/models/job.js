@@ -144,7 +144,7 @@ describe('job.js unit test', () => {
             spec: {
               restartPolicy: 'Never',
               nodeSelector: {
-                'runnable.org.id':123
+                'runnable.org.id':2335750
               },
               containers: [{
                 name: 'kartographer',
@@ -191,7 +191,7 @@ describe('job.js unit test', () => {
             spec: {
               restartPolicy: 'Never',
               nodeSelector: {
-                'runnable.org.id':123
+                'runnable.org.id':2335750
               },
               containers: [{
                 name: 'kartographer',
@@ -236,7 +236,7 @@ describe('job.js unit test', () => {
             spec: {
               restartPolicy: 'Never',
               nodeSelector: {
-                'runnable.org.id':123
+                'runnable.org.id':2335750
               },
               containers: [{
                 name: 'rabbitmq',
