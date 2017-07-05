@@ -5,7 +5,7 @@ const Lab = require('lab')
 const Promise = require('bluebird')
 
 const Service = require('../../../lib/models/service.js')
-const mockInstances = require('../../fixtures/instances.js')
+const mockClusterConfig = require('../../fixtures/clusterConfig.js')
 
 require('sinon-as-promised')(Promise)
 const lab = exports.lab = Lab.script()
@@ -22,13 +22,7 @@ describe('service.js unit test', () => {
     beforeEach((done) => {
       testService = {
         name: 'test',
-        ports: [{
-          host: 80,
-          container: 90
-        }, {
-          host: 50,
-          container: 60
-        }]
+        ports: [90,  60]
       }
       done()
     })
@@ -36,51 +30,30 @@ describe('service.js unit test', () => {
     it('should add ports', (done) => {
       const out = new Service(testService)
 
-      expect(out.spec.ports).to.equal([{
-        protocol: 'TCP',
-        port: 80,
-        targetPort: 90
-      }, {
-        protocol: 'TCP',
-        port: 50,
-        targetPort: 60
-      }])
+      expect(out.spec.ports).to.equal([
+        {containerPort: 90},
+        {containerPort : 60}])
+
       done()
     })
   }) // end constructor
 
-  describe('fromInstance', () => {
+  describe('fromClusterConfigBuilt', () => {
     it('should create config from repo instance', (done) => {
-      const out = Service.fromInstance(mockInstances.masterNonRepo)
+      const out = Service.fromClusterConfigBuilt(mockClusterConfig.master)
 
       expect(out).to.be.instanceof(Service)
       expect(out).to.equal({
         apiVersion: 'v1',
         kind: 'Service',
         metadata: {
-          name: 'rabbitmq'
+          name: mockClusterConfig.master.name
         },
         spec: {
           selector: {
-            name: 'rabbitmq'
+            name: mockClusterConfig.master.name
           },
-          ports: [{
-            protocol: 'TCP',
-            targetPort: 25672,
-            port: 64576
-          }, {
-            protocol: 'TCP',
-            targetPort: 4369,
-            port: 64579
-          }, {
-            protocol: 'TCP',
-            targetPort: 5671,
-            port: 64578
-          }, {
-            protocol: 'TCP',
-            targetPort: 5672,
-            port: 64577
-          }],
+          ports: [{containerPort: 1},{containerPort: 2},{containerPort: 3}],
           type: 'NodePort'
         }
       })
